@@ -25,7 +25,7 @@ export default function DepartureCard({ lineNumber, departures, currentTime }) {
   }
 
   return (
-    <div className="col-sm-2">
+    <div className="col-sm-6">
       <div className="card" style={cardStyle}>
         <div className="card-body" style={cardBodyStyle}>
           <h3 className="card-title" style={cardTitleStyle}>Line {lineNumber}</h3>

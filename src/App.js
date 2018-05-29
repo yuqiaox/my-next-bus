@@ -16,7 +16,7 @@ function extractLinesFromXml(result) {
 }
 
 function extractDeparturesForLine(lines, wantedLine) {
-  return lines.filter((line) => line.No[0] === wantedLine).map((line) => line.JourneyDateTime[0]);
+  return lines.filter((line) => line.Name[0] === wantedLine).map((line) => line.JourneyDateTime[0]);
 }
 
 class App extends Component {
@@ -45,11 +45,12 @@ class App extends Component {
             if (typeof lines === "undefined") {
             lines = [];
           }
-          let lineNumbers = new Set(lines.map(line => line.No[0]));
+          let lineNumbers = new Set(lines.map(line => line.Name[0]));
           let departuresPerLine = {};
           for (let lineNumber of lineNumbers) {
             departuresPerLine[lineNumber] = extractDeparturesForLine(lines, lineNumber);
           }
+          console.dir(departuresPerLine)
           this.setState({ departuresPerLine });
         });
       });
