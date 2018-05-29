@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { parseString } from 'xml2js';
 
 import { containerStyle } from './styles';
+import DepartureCard from "./components/DepartureCard";
 
 // YOU NEED TO GO AND FIND THE BUS STOP ID HERE: http://www.labs.skanetrafiken.se/ endpoint "Neareststation"
-const BUS_STOP_ID = "you-need-to-go-and-look-this-up";
+const BUS_STOP_ID = "81216";
 const SKANETRAFIKEN_URL = `/.netlify/functions/departures?stop=${BUS_STOP_ID}`;
 
 const ONE_SECOND = 1000 /* milliseconds */;
@@ -38,8 +39,10 @@ class App extends Component {
       let reader = new FileReader();
       reader.addEventListener("loadend", () => {
         parseString(reader.result, (err, result) => {
+
           let lines = extractLinesFromXml(result);
-          if (typeof lines === "undefined") {
+            console.dir(lines);
+            if (typeof lines === "undefined") {
             lines = [];
           }
           let lineNumbers = new Set(lines.map(line => line.No[0]));
@@ -69,7 +72,14 @@ class App extends Component {
     return (
       <div className="container" style={containerStyle}>
         <div className="row">
-          <em className="remove-me">write your application here</em>
+            {Object.keys(this.state.departuresPerLine).map(line => (
+                <DepartureCard
+                key={line}
+                lineNumber={line}
+                departures={this.state.departuresPerLine[line]}
+                currentTime={this.state.currentTime}
+                />
+                ))}
         </div>
       </div>
     );
